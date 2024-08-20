@@ -7,18 +7,18 @@ import (
 	"wallets/internal/repository"
 )
 
-type Service struct {
-	Repo   repository.RepositoryInterface
+type service struct {
+	Repo   repository.Repository
 	Config *config.Config
 	Loger  *slog.Logger
 }
 
-type ServiceInterface interface {
+type Service interface {
 	CheckAccount(phone string) (acc models.Account, err error)
 }
 
-func NewService(repo repository.RepositoryInterface, config *config.Config, log *slog.Logger) ServiceInterface {
-	return &Service{
+func New(repo repository.Repository, config *config.Config, log *slog.Logger) Service {
+	return &service{
 		Repo:   repo,
 		Config: config,
 		Loger:  log,

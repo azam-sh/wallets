@@ -1,20 +1,22 @@
 package middleware
 
 import (
+	"net/http"
 	"wallets/config"
 	"wallets/internal/service"
 )
 
-type Middleware struct {
+type middleware struct {
 	config  *config.Config
-	service service.ServiceInterface
+	service service.Service
 }
 
-type MiddlewareInterface interface {
+type Middleware interface {
+	Authenticate(next http.Handler) http.Handler
 }
 
-func NewMiddleware(config *config.Config, svc service.ServiceInterface) MiddlewareInterface {
-	return &Middleware{
+func New(config *config.Config, svc service.Service) Middleware {
+	return &middleware{
 		config:  config,
 		service: svc,
 	}
