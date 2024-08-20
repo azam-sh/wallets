@@ -9,5 +9,6 @@ import (
 
 func InitRouter(handlers *handlers.Handler, mw middleware.MiddlewareInterface) *mux.Router {
 	router := mux.NewRouter()
+
 	return router
 }
