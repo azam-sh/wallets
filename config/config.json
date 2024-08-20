@@ -1,0 +1,6 @@
+{
+  "environment": "local",
+  "server_address": "localhost",
+  "server_port": 8080,
+  "postgres_url":"host=localhost user=postgres password=test dbname=wallet port=5432 sslmode=disable"
+}
