@@ -5,15 +5,15 @@ import (
 	e "wallets/pkg/errors"
 )
 
-func (s *service) RefillBalance(input models.RefillBalanceReq) (err error) {
+func (s *service) TopUpBalance(input models.TopUpBalanceReq) (err error) {
 	if input.AccountId < 1 || input.Amount <= 0 {
 		return e.ErrInvalidInput
 	}
-	user, err := s.Repo.GetUserByAccId(input.AccountId)
+	user, err := s.repo.GetUserByAccId(input.AccountId)
 	if err != nil {
 		return
 	}
-	err = s.Repo.RefillBalance(input.Amount, input.AccountId, user)
+	err = s.repo.TopUpBalance(input.Amount, input.AccountId, user)
 	if err != nil {
 		return
 	}
@@ -25,7 +25,7 @@ func (s *service) GetBalance(accId int64) (balance int64, err error) {
 		err = e.ErrInvalidInput
 		return
 	}
-	balance, err = s.Repo.GetBalance(accId)
+	balance, err = s.repo.GetBalance(accId)
 	if err != nil {
 		return
 	}

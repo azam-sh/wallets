@@ -11,7 +11,7 @@ func (s *service) CheckAccount(phone string) (acc models.CheckAccResp, err error
 		return
 	}
 
-	acc, err = s.Repo.GetAccByPhone(phone)
+	acc, err = s.repo.GetAccByPhone(phone)
 	if err != nil {
 		return
 	}

@@ -5,11 +5,11 @@ import (
 	e "wallets/pkg/errors"
 )
 
-func (repo *repository) RefillBalance(amount int64, accId int64, user models.UserForBalance) (err error) {
+func (r *repository) TopUpBalance(amount int64, accId int64, user models.UserForBalance) (err error) {
 	var (
 		acc models.Account
 	)
-	tx := repo.DB.Begin()
+	tx := r.db.Begin()
 	err = tx.Raw("SELECT FOR UPDATE * FROM accounts WHERE id = ?", accId).Scan(&acc).Error
 	if err != nil {
 		tx.Rollback()
@@ -51,8 +51,8 @@ func (repo *repository) RefillBalance(amount int64, accId int64, user models.Use
 	return nil
 }
 
-func (repo *repository) GetAccById(id int64) (acc models.Account, err error) {
-	err = repo.DB.Find(&acc, id).Error
+func (r *repository) GetAccById(id int64) (acc models.Account, err error) {
+	err = r.db.Find(&acc, id).Error
 	if err != nil {
 		err = e.ErrAccNotFound
 		return
@@ -60,8 +60,8 @@ func (repo *repository) GetAccById(id int64) (acc models.Account, err error) {
 	return
 }
 
-func (repo *repository) GetBalance(accId int64) (balance int64, err error) {
-	err = repo.DB.Raw("SELECT balance FROM accounts WHERE id = ?", accId).Scan(&balance).Error
+func (r *repository) GetBalance(accId int64) (balance int64, err error) {
+	err = r.db.Raw("SELECT balance FROM accounts WHERE id = ?", accId).Scan(&balance).Error
 	if err != nil {
 		return
 	}

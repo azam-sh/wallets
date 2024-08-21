@@ -6,7 +6,7 @@ import (
 	"wallets/internal/models"
 )
 
-func (repo *repository) GetMonthlyTrns(userId int64, input models.Pagination) (resp models.TrnsHistory, err error) {
+func (r *repository) GetMonthlyTrns(userId int64, input models.Pagination) (resp models.TrnsHistory, err error) {
 	var (
 		count    int64
 		dateFrom time.Time
@@ -16,7 +16,7 @@ func (repo *repository) GetMonthlyTrns(userId int64, input models.Pagination) (r
 	dateTo = now
 	dateFrom = time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, time.Local)
 
-	query := repo.DB.Table("transactions").Where("created_at >= ? and created_at <= ? and user_id = ?", dateFrom, dateTo, userId)
+	query := r.db.Table("transactions").Where("created_at >= ? and created_at <= ? and user_id = ?", dateFrom, dateTo, userId)
 
 	err = query.Count(&count).Error
 	if err != nil {

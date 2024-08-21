@@ -5,8 +5,8 @@ import (
 	e "wallets/pkg/errors"
 )
 
-func (repo *repository) GetAccByPhone(phone string) (acc models.CheckAccResp, err error) {
-	err = repo.DB.Raw("SELECT id, first_name, last_name, identified FROM users WHERE phone = ?", phone).Scan(&acc).Error
+func (r *repository) GetAccByPhone(phone string) (acc models.CheckAccResp, err error) {
+	err = r.db.Raw("SELECT id, first_name, last_name, identified FROM users WHERE phone = ?", phone).Scan(&acc).Error
 	if err != nil {
 		return
 	}
@@ -14,7 +14,7 @@ func (repo *repository) GetAccByPhone(phone string) (acc models.CheckAccResp, er
 		err = e.ErrAccNotFound
 		return
 	}
-	err = repo.DB.Raw("SELECT * FROM accounts WHERE user_id = ?", acc.Id).Scan(&acc.Accounts).Error
+	err = r.db.Raw("SELECT * FROM accounts WHERE user_id = ?", acc.Id).Scan(&acc.Accounts).Error
 	if err != nil {
 		return
 	}
@@ -25,8 +25,8 @@ func (repo *repository) GetAccByPhone(phone string) (acc models.CheckAccResp, er
 	return
 }
 
-func (repo *repository) GetUserByAccId(id int64) (user models.UserForBalance, err error) {
-	err = repo.DB.Raw(`
+func (r *repository) GetUserByAccId(id int64) (user models.UserForBalance, err error) {
+	err = r.db.Raw(`
 		SELECT id, identified, phone, max_balance FROM users u
 		LEFT JOIN balance_limits bl ON u.limit_id = bl.id
 		WHERE u.id = (SELECT user_id FROM accounts WHERE id = ?)`, id).Scan(&user).Error

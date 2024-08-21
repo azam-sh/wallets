@@ -13,7 +13,7 @@ func (s *service) GetMonthlyTrns(userId int64, input models.Pagination) (trns mo
 		input.Rows = 15
 	}
 
-	trns, err = s.Repo.GetMonthlyTrns(userId, input)
+	trns, err = s.repo.GetMonthlyTrns(userId, input)
 	if err != nil {
 		return
 	}

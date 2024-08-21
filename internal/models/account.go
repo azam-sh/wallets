@@ -11,7 +11,7 @@ type Account struct {
 	UpdatedAt time.Time `json:"-" gorm:"column:updated_at"`
 }
 
-type RefillBalanceReq struct {
+type TopUpBalanceReq struct {
 	AccountId int64 `json:"account_id"`
 	Amount    int64 `json:"amount"`
 }

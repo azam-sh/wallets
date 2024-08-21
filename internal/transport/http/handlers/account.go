@@ -7,11 +7,11 @@ import (
 	"wallets/pkg/response"
 )
 
-func (h *Handler) RefillBalance(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) TopUpBalance(w http.ResponseWriter, r *http.Request) {
 	var resp response.Response
 	defer resp.WriteJSON(w)
 
-	var input models.RefillBalanceReq
+	var input models.TopUpBalanceReq
 
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
@@ -19,7 +19,7 @@ func (h *Handler) RefillBalance(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.svc.RefillBalance(input)
+	err = h.svc.TopUpBalance(input)
 	if err != nil {
 		resp = response.InternalServer
 		resp.Message = err.Error()
