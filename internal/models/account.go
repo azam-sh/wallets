@@ -11,6 +11,15 @@ type Account struct {
 	UpdatedAt time.Time `json:"-" gorm:"column:updated_at"`
 }
 
+type RefillBalanceReq struct {
+	AccountId int64 `json:"account_id"`
+	Amount    int64 `json:"amount"`
+}
+
+type BalanceReq struct {
+	AccountId int64 `json:"account_id"`
+}
+
 func (a *Account) TableName() string {
 	return "accounts"
 }

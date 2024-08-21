@@ -22,7 +22,7 @@ func main() {
 	repo := repository.New(db, logger)
 	repo.AutoMigrate(logger)
 	svc := service.New(repo, conf, logger)
-	handlers := handlers.NewHandler(svc, logger)
+	handlers := handlers.New(svc, logger)
 	mw := middleware.New(conf, svc)
 	router := router.InitRouter(handlers, mw)
 	server := http.NewServer(conf.ServerAddress, conf.ServerPort, router)

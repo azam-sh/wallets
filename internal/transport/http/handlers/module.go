@@ -10,7 +10,7 @@ type Handler struct {
 	logger *slog.Logger
 }
 
-func NewHandler(svc service.Service, logger *slog.Logger) *Handler {
+func New(svc service.Service, logger *slog.Logger) *Handler {
 	return &Handler{
 		svc:    svc,
 		logger: logger,

@@ -15,6 +15,16 @@ type Transaction struct {
 	UpdatedAt     time.Time `json:"-" gorm:"column:updated_at"`
 }
 
+type TrnsHistory struct {
+	TotalPages int           `json:"total_pages,omitempty"`
+	Trns       []Transaction `json:"transactions"`
+}
+
+type Pagination struct {
+	Page int
+	Rows int
+}
+
 func (tr *Transaction) TableName() string {
 	return "transactions"
 }

@@ -13,6 +13,10 @@ func InitRouter(handlers *handlers.Handler, mw middleware.Middleware) *mux.Route
 
 	privateRouter := router.NewRoute().Subrouter()
 	privateRouter.Use(mw.Authenticate)
+	privateRouter.HandleFunc("/checkAcc", handlers.CheckAccount).Methods("POST")
+	privateRouter.HandleFunc("/refill_balance", handlers.RefillBalance).Methods("POST")
+	privateRouter.HandleFunc("/trns_history", handlers.GetMonthlyTrns).Methods("POST")
+	privateRouter.HandleFunc("/balance", handlers.GetBalance).Methods("POST")
 
 	return router
 }

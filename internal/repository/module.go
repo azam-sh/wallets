@@ -13,7 +13,12 @@ type repository struct {
 }
 
 type Repository interface {
-	GetUserByPhone(phone string) (user models.User, err error)
+	GetAccByPhone(phone string) (acc models.CheckAccResp, err error)
+	RefillBalance(amount int64, accId int64, user models.UserForBalance) (err error)
+	GetUserByAccId(id int64) (user models.UserForBalance, err error)
+	GetAccById(id int64) (acc models.Account, err error)
+	GetMonthlyTrns(userId int64, input models.Pagination) (trns models.TrnsHistory, err error)
+	GetBalance(accId int64) (balance int64, err error)
 	AutoMigrate(logger *slog.Logger)
 }
 

@@ -14,7 +14,10 @@ type service struct {
 }
 
 type Service interface {
-	CheckAccount(phone string) (acc models.Account, err error)
+	CheckAccount(phone string) (accounts models.CheckAccResp, err error)
+	RefillBalance(input models.RefillBalanceReq) error
+	GetMonthlyTrns(userId int64, input models.Pagination) (trns models.TrnsHistory, err error)
+	GetBalance(accId int64) (balance int64, err error)
 }
 
 func New(repo repository.Repository, config *config.Config, log *slog.Logger) Service {
