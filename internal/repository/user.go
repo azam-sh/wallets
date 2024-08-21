@@ -27,9 +27,9 @@ func (r *repository) GetAccByPhone(phone string) (acc models.CheckAccResp, err e
 
 func (r *repository) GetUserByAccId(id int64) (user models.UserForBalance, err error) {
 	err = r.db.Raw(`
-		SELECT id, identified, phone, max_balance FROM users u
+		SELECT u.id, identified, phone, max_balance FROM users u
 		LEFT JOIN balance_limits bl ON u.limit_id = bl.id
-		WHERE u.id = (SELECT user_id FROM accounts WHERE id = ?)`, id).Scan(&user).Error
+		WHERE u.id = (SELECT a.user_id FROM accounts a WHERE a.id = ?)`, id).Scan(&user).Error
 	if err != nil {
 		return
 	}

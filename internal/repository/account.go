@@ -10,7 +10,7 @@ func (r *repository) TopUpBalance(amount int64, accId int64, user models.UserFor
 		acc models.Account
 	)
 	tx := r.db.Begin()
-	err = tx.Raw("SELECT FOR UPDATE * FROM accounts WHERE id = ?", accId).Scan(&acc).Error
+	err = tx.Raw("SELECT * FROM accounts WHERE id = ? FOR UPDATE", accId).Scan(&acc).Error
 	if err != nil {
 		tx.Rollback()
 		return
@@ -54,6 +54,9 @@ func (r *repository) TopUpBalance(amount int64, accId int64, user models.UserFor
 func (r *repository) GetAccById(id int64) (acc models.Account, err error) {
 	err = r.db.Find(&acc, id).Error
 	if err != nil {
+		return
+	}
+	if acc.Id < 1 {
 		err = e.ErrAccNotFound
 		return
 	}
@@ -61,6 +64,15 @@ func (r *repository) GetAccById(id int64) (acc models.Account, err error) {
 }
 
 func (r *repository) GetBalance(accId int64) (balance int64, err error) {
+	var exists bool
+	err = r.db.Raw("SELECT EXISTS(SELECT 1 FROM accounts WHERE id = ?)", accId).Scan(&exists).Error
+	if err != nil {
+		return
+	}
+	if !exists {
+		err = e.ErrAccNotFound
+		return
+	}
 	err = r.db.Raw("SELECT balance FROM accounts WHERE id = ?", accId).Scan(&balance).Error
 	if err != nil {
 		return

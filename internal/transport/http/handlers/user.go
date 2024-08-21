@@ -15,6 +15,7 @@ func (h *Handler) CheckAccount(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		resp = response.BadRequest
+		resp.Message = err.Error()
 		return
 	}
 
@@ -25,6 +26,6 @@ func (h *Handler) CheckAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp.Payload = accounts
 	resp = response.Success
+	resp.Payload = accounts
 }

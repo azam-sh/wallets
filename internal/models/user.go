@@ -9,7 +9,7 @@ type User struct {
 	Phone        string       `json:"phone" gorm:"column:phone;unique"`
 	Identified   int          `json:"identified" gorm:"column:identified"` // 1 - identified; 2 - not identified
 	LimitId      int64        `json:"limit_id" gorm:"column:limit_id"`
-	BalanceLimit BalanceLimit `gorm:"foreignKey:LimitId"`
+	BalanceLimit BalanceLimit `json:"-" gorm:"foreignKey:LimitId"`
 	CreatedAt    time.Time    `json:"-" gorm:"column:created_at"`
 	UpdatedAt    time.Time    `json:"-" gorm:"column:updated_at"`
 }

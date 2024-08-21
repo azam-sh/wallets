@@ -16,6 +16,7 @@ func (h *Handler) TopUpBalance(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		resp = response.BadRequest
+		resp.Message = err.Error()
 		return
 	}
 
@@ -27,6 +28,7 @@ func (h *Handler) TopUpBalance(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp = response.Success
+	resp.Message = "Баланс пополнен успешно!"
 }
 
 func (h *Handler) GetBalance(w http.ResponseWriter, r *http.Request) {
@@ -38,12 +40,14 @@ func (h *Handler) GetBalance(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		resp = response.BadRequest
+		resp.Message = err.Error()
 		return
 	}
 
 	balance, err := h.svc.GetBalance(input.AccountId)
 	if err != nil {
 		resp = response.InternalServer
+		resp.Message = err.Error()
 		return
 	}
 

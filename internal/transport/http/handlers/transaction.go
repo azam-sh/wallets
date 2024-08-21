@@ -22,14 +22,15 @@ func (h *Handler) GetMonthlyTrns(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		resp = response.BadRequest
+		resp.Message = err.Error()
 		return
 	}
 	trns, err := h.svc.GetMonthlyTrns(userId, input)
 	if err != nil {
 		resp = response.InternalServer
+		resp.Message = err.Error()
 		return
 	}
-
-	resp.Payload = trns
 	resp = response.Success
+	resp.Payload = trns
 }
