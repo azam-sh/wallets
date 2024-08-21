@@ -20,6 +20,7 @@ func (r *repository) GetMonthlyTrns(userId int64, input models.Pagination) (resp
 
 	err = query.Count(&count).Error
 	if err != nil {
+		r.logger.Error("count of trns sql err: " + err.Error())
 		return
 	}
 
@@ -27,6 +28,7 @@ func (r *repository) GetMonthlyTrns(userId int64, input models.Pagination) (resp
 
 	err = query.Limit(input.Rows).Offset(offset).Find(&resp.Trns).Error
 	if err != nil {
+		r.logger.Error("select monthly trns sql err: " + err.Error())
 		return
 	}
 	if count == 0 {

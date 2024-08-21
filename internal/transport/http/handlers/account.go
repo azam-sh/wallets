@@ -15,6 +15,7 @@ func (h *Handler) TopUpBalance(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
+		h.logger.Error("binding error: " + err.Error())
 		resp = response.BadRequest
 		resp.Message = err.Error()
 		return
@@ -39,6 +40,7 @@ func (h *Handler) GetBalance(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
+		h.logger.Error("binding error: " + err.Error())
 		resp = response.BadRequest
 		resp.Message = err.Error()
 		return

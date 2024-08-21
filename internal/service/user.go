@@ -7,6 +7,7 @@ import (
 
 func (s *service) CheckAccount(phone string) (acc models.CheckAccResp, err error) {
 	if phone == "" || len(phone) != 9 {
+		s.logger.Info("invalid phone number")
 		err = e.ErrIncorrectPhoneNumber
 		return
 	}

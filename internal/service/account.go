@@ -7,6 +7,7 @@ import (
 
 func (s *service) TopUpBalance(input models.TopUpBalanceReq) (err error) {
 	if input.AccountId < 1 || input.Amount <= 0 {
+		s.logger.Info("account_id not specified or amount < 0")
 		return e.ErrInvalidInput
 	}
 	user, err := s.repo.GetUserByAccId(input.AccountId)
@@ -22,6 +23,7 @@ func (s *service) TopUpBalance(input models.TopUpBalanceReq) (err error) {
 
 func (s *service) GetBalance(accId int64) (balance int64, err error) {
 	if accId < 1 {
+		s.logger.Info("account_id not specified")
 		err = e.ErrInvalidInput
 		return
 	}

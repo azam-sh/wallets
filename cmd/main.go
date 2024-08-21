@@ -23,7 +23,7 @@ func main() {
 	repo.AutoMigrate(logger)
 	svc := service.New(repo, conf, logger)
 	handlers := handlers.New(svc, logger)
-	mw := middleware.New(conf, svc)
+	mw := middleware.New(conf, svc, logger)
 	router := router.InitRouter(handlers, mw)
 	server := http.NewServer(conf.ServerAddress, conf.ServerPort, router)
 	server.Run()

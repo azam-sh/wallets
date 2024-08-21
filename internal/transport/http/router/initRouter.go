@@ -9,6 +9,7 @@ import (
 
 func InitRouter(handlers *handlers.Handler, mw middleware.Middleware) *mux.Router {
 	router := mux.NewRouter()
+	router.Use(mw.LogMiddleware)
 	router.HandleFunc("/ping", handlers.Ping).Methods("GET")
 
 	privateRouter := router.NewRoute().Subrouter()

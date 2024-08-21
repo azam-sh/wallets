@@ -14,6 +14,7 @@ func (h *Handler) CheckAccount(w http.ResponseWriter, r *http.Request) {
 	var input models.CheckAccReq
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
+		h.logger.Error("binding error: " + err.Error())
 		resp = response.BadRequest
 		resp.Message = err.Error()
 		return
